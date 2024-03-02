@@ -9,7 +9,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   return (
     <div className="bg-gray-600 flex flex-col justify-center items-center h-screen w-screen">
-      <a href="/"><img src={logo} alt="logo" draggable={false} unselectable /></a>
+      <a href="/"><img src={logo} alt="GhostVaibhav" draggable={false} unselectable /></a>
       {loading ? <Generating /> : (url === "" ? <Generate loading={loading} setLoading={setLoading} setUrl={setUrl} /> : <Generated url={url} />)}
     </div>
   );

@@ -5,7 +5,7 @@ function Generate(props) {
     if(str.length === 0) return false;
     return true;
   }
-  function submit(e) {
+  async function submit(e) {
     e.preventDefault();
     if(document.getElementById('input').classList.contains('border-red-500')) document.getElementById('input').classList.remove('border-red-500');
     const input = document.getElementById('input').value
@@ -17,11 +17,29 @@ function Generate(props) {
       inputElt.classList.add('border-red-500');
       return;
     }
+    
+    const data = {
+      to: input
+    };
+    
+    const requestOptions = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    };
+    
     props.setLoading(true)
-    setTimeout(() => {
-      props.setUrl(input)
-      props.setLoading(false)
-    }, 2000)
+    await fetch(process.env.REACT_APP_API_URL, requestOptions)
+      .then(response => response.json())
+      .then(data => {
+        props.setUrl("https://to.ghostvaibhav.codes/" + data.from);
+        props.setLoading(false);
+      })
+      .catch(error => {
+        props.setLoading(false);
+      })
+
+    props.setLoading(false)
   }
   return (
     <form className='w-[90%] sm:w-max bg-slate-700 flex flex-col sm:flex-row gap-4 m-4 p-4 rounded-xl border border-[#64748b]' onSubmit={(e) => submit(e)}>
